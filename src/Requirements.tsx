@@ -15,9 +15,9 @@ const Requirements: FC = () => {
         requestAnimals({ animal, amount, limit: byPage, offset: (page - 1) * byPage }).then((data) => {
             setResult(data)
             setLoading(false)
-        }).catch(() => ({
-            
-        })
+        }).catch(() => {
+            throw new Error("something wrong...")   
+        }
     )
     }, [animal, amount, page, byPage]);
 
@@ -63,25 +63,33 @@ const Requirements: FC = () => {
                         </button>
                         {page}
                         <button
-                            className="border-2 border-neutral-500 px-1 rounded-md"
+                            className={`border-2 border-neutral-500 px-1 rounded-md ${
+                                byPage > result.length ? "opacity-50" : "opacity-100"
+                            }`}
+                            disabled={byPage > result.length}
                             onClick={() => setPage(page + 1)}
                         >
                             next
                         </button>
+                            
                     </div>
                 </div>
 
-                {loading ? (
-                    "Loading..."
-                ) : (
-                    <ul>
-                        {
-                            result.map((animal) => (
-                                <li key={animal.id}>{animal.animal} {animal.amount}</li>    
-                            ))
-                        }
-                    </ul>
-                )}
+                {
+                    loading ? (
+                        "Loading..."
+                    ) : ( 
+                        result.length !== 0 ? (
+                            <ul>
+                                {
+                                    result.map((res) => (
+                                        <li key={res.id}>{res.animal} {res.amount}</li>    
+                                    ))   
+                                }
+                            </ul>
+                        ) : ("No Results")
+                    )
+                }
             </div>
         </div>
     );
