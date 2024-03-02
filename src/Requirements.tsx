@@ -87,7 +87,7 @@ const Requirements: FC = () => {
                                     ))   
                                 }
                             </ul>
-                        ) : ("No Results")
+                        ) : ("Animals not found")
                     )
                 }
             </div>
